@@ -6,16 +6,16 @@ require "net/http"
 
 module YandexCleanweb
   API_URL = 'http://cleanweb-api.yandex.ru/1.0/'
-  mattr_accessor :api_key
 
   class << self
+    attr_accessor :api_key
+
     def spam?(*options)
       response = api_check_spam(options)
-      puts response
       doc = Nokogiri::XML(response)
+
       request_id_tag = doc.xpath('//check-spam-result/id')
       spam_flag_tag = doc.xpath('//check-spam-result/text')
-      puts spam_flag_tag.inspect
 
       request_id = request_id_tag[0]
       spam_flag = spam_flag_tag[0].attributes["spam-flag"].content
