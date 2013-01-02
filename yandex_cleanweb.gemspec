@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = YandexCleanweb::VERSION
   gem.authors       = ["Kir Shatrov"]
   gem.email         = ["shatrov@me.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Ruby wrapper for Yandex.Cleanweb}
+  gem.summary       = %q{Ruby wrapper for Yandex.Cleanweb spam detector}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
