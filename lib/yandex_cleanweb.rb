@@ -22,7 +22,7 @@ module YandexCleanweb
 
       if spam_flag == 'yes'
         links = doc.xpath('//check-spam-result/links').map { |el|
-          [attributes["url"], attributes["spam_flag"] == 'yes']
+          [el.attributes["url"], el.attributes["spam_flag"] == 'yes']
         }
 
         { id: request_id, links: links }
