@@ -78,30 +78,13 @@ module YandexCleanweb
     end
 
     def api_check_spam(*options)
-      cleanweb_options = {}
+      cleanweb_options = { "key" => api_key }
 
       if options[0].is_a?(String) # quick check
         cleanweb_options[:body_plain] = options[0]
       else
         options = options[0][0]
-
-        cleanweb_options.merge!({
-          "key" => api_key,
-
-          "body-plain" => options[:body_plain],
-          "body-html" => options[:body_html],
-          "body-bbcode" => options[:body_bbcode],
-
-          "subject-html" => options[:subject_html],
-          "subject-plain" => options[:subject_plain],
-          "subject-bbcode" => options[:subject_bbcode],
-
-          "ip" => options[:ip],
-          "email" => options[:email],
-          "name" => options[:name],
-          "login" => options[:login],
-          "realname" => options[:realname]
-        })
+        cleanweb_options.merge!(Hash[options.map{ |k,v| [k.to_s.gsub("_","-"), v] }])
       end
 
       check_spam_url = "#{API_URL}/check-spam"
