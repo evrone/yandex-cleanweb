@@ -34,6 +34,22 @@ YandexCleanweb.spam?(body_html: "some spam <a href='http://spam.com'>spam link</
   => { id: "request id", links: [ ['http://spam.com', true] ] }
 ```
 
+More complex example:
+
+```ruby
+
+user_input = "download free porn <a>...</a>"
+if spam_check = YandexCleanweb.spam?(user_input, ip: current_user.ip)
+  captcha = YandexCleanweb.get_captcha(spam_check[:id])
+
+  # now you can show captcha[:url] to user
+  # but remember to write captcha[:captcha] to session
+
+  # to check is captcha enterred by user is valid:
+  captcha_valid = YandexCleanweb.valid_captcha?(result[:id], captcha[:captcha], user_captcha)
+end
+```
+
 If you use Yandex Cleanweb in Rails app, we recommend to set up the api key in `config/initializers/yandex_cleanweb.rb`
 
 ## Contributing
