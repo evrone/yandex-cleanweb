@@ -17,15 +17,17 @@ module YandexCleanweb
       request_id_tag = doc.xpath('//check-spam-result/id')
       spam_flag_tag = doc.xpath('//check-spam-result/text')
 
-      request_id = request_id_tag[0]
+      request_id = request_id_tag[0].content
       spam_flag = spam_flag_tag[0].attributes["spam-flag"].content
 
       if spam_flag == 'yes'
-        links = doc.xpath('//check-spam-result/links').map { |el|
-          [el.attributes["url"], el.attributes["spam_flag"] == 'yes']
-        }
+        links = doc.xpath('//check-spam-result/links')[0].children
 
-        { id: request_id, links: links }
+        links.map do |el|
+          [el.attributes["url"], el.attributes["spam_flag"] == 'yes']
+        end
+
+        { :id => request_id, :links => links }
       else
         false
       end
@@ -38,10 +40,7 @@ module YandexCleanweb
       url = doc.xpath('//get-captcha-result/url').text
       captcha_id = doc.xpath('//get-captcha-result/captcha').text
 
-      {
-        url: url,
-        captcha: captcha_id
-      }
+      { :url => url, :captcha => captcha_id }
     end
 
     def valid_captcha?(request_id, captcha_id, value)
@@ -55,10 +54,10 @@ module YandexCleanweb
     def api_check_captcha(request_id, captcha_id, value)
       check_captcha_url = "#{API_URL}/check-captcha"
       params = {
-        key: api_key,
-        id: request_id,
-        captcha: captcha_id,
-        value: value
+        :key => api_key,
+        :id => request_id,
+        :captcha => captcha_id,
+        :value => value
       }
 
       uri = URI.parse(check_captcha_url)
@@ -69,7 +68,7 @@ module YandexCleanweb
 
     def api_get_captcha(request_id)
       get_captcha_url = "#{API_URL}/get-captcha"
-      params = {key: api_key, id: request_id}
+      params = { :key => api_key, :id => request_id }
 
       uri = URI.parse(get_captcha_url)
       uri.query = URI.encode_www_form(params)
@@ -77,13 +76,13 @@ module YandexCleanweb
       Net::HTTP.get(uri)
     end
 
-    def api_check_spam(*options)
-      cleanweb_options = { "key" => api_key }
+    def api_check_spam(options)
+      cleanweb_options = { :key => api_key }
 
       if options[0].is_a?(String) # quick check
         cleanweb_options[:body_plain] = options[0]
       else
-        options = options[0][0]
+        options = options[0]
         cleanweb_options.merge!(Hash[options.map{ |k,v| [k.to_s.gsub("_","-"), v] }])
       end
 
