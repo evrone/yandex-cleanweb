@@ -4,6 +4,8 @@
 
 Ruby wrapper for [Yandex Cleanweb](http://api.yandex.ru/cleanweb/) spam detector.
 
+Unfortunatelly, this gem *is not capable with MRI 1.8.7* because of MRI 1.8.7 doesn't have `URI.encode_www_form` method.
+
 ## Installation
 
 Add this line to your application's Gemfile:
