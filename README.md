@@ -1,5 +1,7 @@
 # Yandex Cleanweb
 
+[![Build Status](https://travis-ci.org/evrone/yandex-cleanweb.png?branch=master)](https://travis-ci.org/evrone/yandex-cleanweb)
+
 Ruby wrapper for [Yandex Cleanweb](http://api.yandex.ru/cleanweb/) spam detector.
 
 ## Installation
