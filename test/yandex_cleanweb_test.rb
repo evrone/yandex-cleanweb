@@ -31,14 +31,17 @@ describe YandexCleanweb do
 
   end
 
-  describe "#get_captcha" do
+  describe "#get_captcha + #valid_captcha?" do
 
-    it "works" do
+    it "works for not valid captchas" do
       result = YandexCleanweb.spam?(:body_html => "some spam <a href='http://spam.com'>spam link</a>")
       captcha = YandexCleanweb.get_captcha(result[:id])
 
       captcha[:url].wont_be_empty
       captcha[:captcha].wont_be_empty
+
+      valid = YandexCleanweb.valid_captcha?(result[:id], captcha[:captcha], "1234")
+      valid.must_equal false
     end
 
   end
