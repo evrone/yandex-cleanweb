@@ -63,11 +63,11 @@ describe YandexCleanweb do
 
       describe "advanced mode" do
         it "works" do
-          YandexCleanweb.spam?(:body_plain => "my text", :ip => "80.80.40.3").must_equal false
+          YandexCleanweb.spam?(body_plain: "my text", ip: "80.80.40.3").must_equal false
         end
 
         it "with some html" do
-          result = YandexCleanweb.spam?(:body_html => "some spam <a href='http://spam.com'>spam link</a>")
+          result = YandexCleanweb.spam?(body_html: "some spam <a href='http://spam.com'>spam link</a>")
 
           result[:id].wont_be_empty
           result[:links].must_be_empty
@@ -78,7 +78,7 @@ describe YandexCleanweb do
     describe "#get_captcha + #valid_captcha?" do
 
       it "works for not valid captchas" do
-        result = YandexCleanweb.spam?(:body_html => "some spam <a href='http://spam.com'>spam link</a>")
+        result = YandexCleanweb.spam?(body_html: "some spam <a href='http://spam.com'>spam link</a>")
         captcha = YandexCleanweb.get_captcha(result[:id])
 
         captcha[:url].wont_be_empty
