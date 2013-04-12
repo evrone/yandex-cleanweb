@@ -10,7 +10,7 @@ Unfortunatelly, this gem *is not capable with MRI 1.8.7* because of MRI 1.8.7 do
 
 Add this line to your application's Gemfile:
 
-    gem 'yandex_cleanweb'
+    gem 'yandex_cleanweb', '~> 0.0.5'
 
 And then execute:
 
