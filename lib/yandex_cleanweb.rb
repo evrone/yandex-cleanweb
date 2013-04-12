@@ -5,6 +5,8 @@ require "nokogiri"
 require "net/http"
 
 module YandexCleanweb
+  class NoApiKeyException < Exception; end
+
   API_URL = 'http://cleanweb-api.yandex.ru/1.0/'
 
   class << self
@@ -54,7 +56,7 @@ module YandexCleanweb
     def api_check_captcha(request_id, captcha_id, value)
       check_captcha_url = "#{API_URL}/check-captcha"
       params = {
-        :key => api_key,
+        :key => prepare_api_key,
         :id => request_id,
         :captcha => captcha_id,
         :value => value
@@ -68,7 +70,7 @@ module YandexCleanweb
 
     def api_get_captcha(request_id)
       get_captcha_url = "#{API_URL}/get-captcha"
-      params = { :key => api_key, :id => request_id }
+      params = { :key => prepare_api_key, :id => request_id }
 
       uri = URI.parse(get_captcha_url)
       uri.query = URI.encode_www_form(params)
@@ -77,7 +79,7 @@ module YandexCleanweb
     end
 
     def api_check_spam(options)
-      cleanweb_options = { :key => api_key }
+      cleanweb_options = { :key => prepare_api_key }
 
       if options[0].is_a?(String) # quick check
         cleanweb_options[:body_plain] = options[0]
@@ -90,6 +92,12 @@ module YandexCleanweb
       uri = URI.parse(check_spam_url)
       response = Net::HTTP.post_form(uri, cleanweb_options)
       response.body
+    end
+
+    def prepare_api_key
+      raise NoApiKeyException if api_key.nil? || api_key.empty?
+
+      api_key
     end
   end
 end
