@@ -6,8 +6,9 @@ require "net/http"
 
 module YandexCleanweb
   class NoApiKeyException < Exception; end
+  class BadResponseException < Exception; end
 
-  API_URL = 'http://cleanweb-api.yandex.ru/1.0/'
+  API_URL = 'http://cleanweb-api.yandex.ru/1.0'
 
   class << self
     attr_accessor :api_key
@@ -18,6 +19,8 @@ module YandexCleanweb
 
       request_id_tag = doc.xpath('//check-spam-result/id')
       spam_flag_tag = doc.xpath('//check-spam-result/text')
+
+      raise BadResponseException if request_id_tag.size.zero?
 
       request_id = request_id_tag[0].content
       spam_flag = spam_flag_tag[0].attributes["spam-flag"].content

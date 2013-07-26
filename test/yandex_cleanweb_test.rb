@@ -88,5 +88,16 @@ describe YandexCleanweb do
         valid.must_equal false
       end
     end
+
+    describe "raises BadResponseException in case of empty result" do
+      before do
+        FakeWeb.clean_registry
+      end
+
+      it do
+        FakeWeb.register_uri(:post, "http://cleanweb-api.yandex.ru/1.0/check-spam", body: "")
+        proc { YandexCleanweb.spam?(body_plain: "any text") }.must_raise(YandexCleanweb::BadResponseException)
+      end
+    end
   end
 end
