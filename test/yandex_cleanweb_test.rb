@@ -78,7 +78,12 @@ describe YandexCleanweb do
 
       describe "advanced mode" do
         it "works" do
-          YandexCleanweb.spam?(body_plain: "my text", ip: "80.80.40.3").must_equal false
+          result = YandexCleanweb.spam?(body_plain: "my text", ip: "80.80.40.3")
+          result[:id].wont_be_empty
+          result[:links].must_be_empty
+
+
+          YandexCleanweb.spam?(body_plain: "my text").must_equal false
         end
 
         it "with some html" do
@@ -93,8 +98,8 @@ describe YandexCleanweb do
     describe "#spam!" do
       describe "simple check" do
         it "works" do
-          YandexCleanweb.spam!("тестовая фраза").must_equal true
-          YandexCleanweb.spam!("недорого увеличение пениса проститутки").must_equal true
+          YandexCleanweb.spam!("другая тестовая фраза").must_equal true
+          YandexCleanweb.spam!("недорого увеличение пениса проститутки без смс и регистрации").must_equal true
         end
 
         it "with some html" do
