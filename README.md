@@ -36,6 +36,14 @@ YandexCleanweb.spam?(body_html: "some spam <a href='http://spam.com'>spam link</
   => { id: "request id", links: [ ['http://spam.com', true] ] }
 ```
 
+Tell Cleanweb API that message is spam: 
+
+```ruby
+YandexCleanweb.api_key = "your_key"
+YandexCleanweb.spam!("some spam here")
+YandexCleanweb.spam!(body_html: "some spam <a href='http://spam.com'>spam link</a>")
+```
+
 More complex example:
 
 ```ruby

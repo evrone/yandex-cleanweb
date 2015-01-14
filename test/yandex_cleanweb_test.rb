@@ -16,6 +16,14 @@ describe YandexCleanweb do
       end
     end
 
+    describe "#spam!" do
+      it "raise an error" do
+        -> {
+          YandexCleanweb.spam!("anything")
+        }.must_raise YandexCleanweb::NoApiKeyException
+      end
+    end
+
     describe "#get_captcha" do
       it "raise an error" do
         -> {
@@ -44,6 +52,13 @@ describe YandexCleanweb do
         YandexCleanweb.spam?("anything")
       }.must_raise YandexCleanweb::NoApiKeyException
     end
+
+    it "raise an error" do
+      -> {
+        YandexCleanweb.spam!("anything")
+      }.must_raise YandexCleanweb::NoApiKeyException
+    end
+
   end
 
   context "with api key" do
@@ -63,7 +78,12 @@ describe YandexCleanweb do
 
       describe "advanced mode" do
         it "works" do
-          YandexCleanweb.spam?(body_plain: "my text", ip: "80.80.40.3").must_equal false
+          result = YandexCleanweb.spam?(body_plain: "my text", ip: "80.80.40.3")
+          result[:id].wont_be_empty
+          result[:links].must_be_empty
+
+
+          YandexCleanweb.spam?(body_plain: "my text").must_equal false
         end
 
         it "with some html" do
@@ -72,6 +92,22 @@ describe YandexCleanweb do
           result[:id].wont_be_empty
           result[:links].must_be_empty
         end
+      end
+    end
+
+    describe "#spam!" do
+      describe "simple check" do
+        it "works" do
+          YandexCleanweb.spam!("другая тестовая фраза").must_equal true
+          YandexCleanweb.spam!("недорого увеличение пениса проститутки без смс и регистрации").must_equal true
+        end
+
+        it "with some html" do
+          result = YandexCleanweb.spam!(body_html: "some spam <a href='http://spam.com'>spam link</a>")
+
+          result.must_equal true
+        end
+
       end
     end
 

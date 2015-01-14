@@ -38,6 +38,32 @@ module YandexCleanweb
       end
     end
 
+    def spam!(*options)
+      response = api_check_spam(options)
+      doc = Nokogiri::XML(response)
+
+      request_id_tag = doc.xpath('//check-spam-result/id')
+      spam_flag_tag = doc.xpath('//check-spam-result/text')
+
+      raise BadResponseException if request_id_tag.size.zero?
+
+      request_id = request_id_tag[0].content
+      spam_flag = spam_flag_tag[0].attributes["spam-flag"].content
+
+      if spam_flag == 'yes'
+        true
+      else
+        response = api_mark_as_spam(request_id)
+        doc = Nokogiri::Slop(response)
+        status = doc.xpath("//complain-result/ok").first.name
+        if status=='ok'
+          true
+        else
+          false
+        end
+      end
+    end
+
     def get_captcha(request_id)
       response = api_get_captcha(request_id)
       doc = Nokogiri::XML(response)
@@ -93,6 +119,15 @@ module YandexCleanweb
 
       check_spam_url = "#{API_URL}/check-spam"
       uri = URI.parse(check_spam_url)
+      response = Net::HTTP.post_form(uri, cleanweb_options)
+      response.body
+    end
+
+    def api_mark_as_spam(request_id)
+      cleanweb_options = { key: prepare_api_key, id: request_id, spamtype: 'spam' }
+      complain_url = "#{API_URL}/complain"
+
+      uri = URI.parse(complain_url)
       response = Net::HTTP.post_form(uri, cleanweb_options)
       response.body
     end
