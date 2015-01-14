@@ -124,11 +124,11 @@ module YandexCleanweb
     end
 
     def api_mark_as_spam(request_id)
-      cleanweb_options = { key: prepare_api_key, id:request_id,spamtype: 'spam' }
+      cleanweb_options = { key: prepare_api_key, id: request_id, spamtype: 'spam' }
       complain_url = "#{API_URL}/complain"
 
       uri = URI.parse(complain_url)
-      response = Net::HTTP.post_form(uri,cleanweb_options)
+      response = Net::HTTP.post_form(uri, cleanweb_options)
       response.body
     end
 
