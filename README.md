@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/evrone/yandex-cleanweb.png?branch=master)](https://travis-ci.org/evrone/yandex-cleanweb)
 
-Ruby wrapper for [Yandex Cleanweb](http://api.yandex.ru/cleanweb/) spam detector.
+Ruby wrapper for [Yandex Cleanweb](https://tech.yandex.ru/cleanweb/) spam detector.
 
 Unfortunatelly, this gem *is not capable with MRI 1.8.7* because of MRI 1.8.7 doesn't have `URI.encode_www_form` method.
 
@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-Get the api key: [http://api.yandex.ru/cleanweb/getkey.xml](http://api.yandex.ru/cleanweb/getkey.xml)
+Get the api key: [https://tech.yandex.ru/keys/get/?service=cw](https://tech.yandex.ru/keys/get/?service=cw)
 
 ```ruby
 YandexCleanweb.api_key = "your_key"
@@ -36,7 +36,7 @@ YandexCleanweb.spam?(body_html: "some spam <a href='http://spam.com'>spam link</
   => { id: "request id", links: [ ['http://spam.com', true] ] }
 ```
 
-Tell Cleanweb API that message is spam: 
+Tell Cleanweb API that message is spam:
 
 ```ruby
 YandexCleanweb.api_key = "your_key"
