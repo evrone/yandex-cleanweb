@@ -1,3 +1,4 @@
+# PLEASE NOTE, THIS PROJECT IS NO LONGER BEING MAINTAINED
 # Yandex Cleanweb
 
 [![Build Status](https://travis-ci.org/evrone/yandex-cleanweb.png?branch=master)](https://travis-ci.org/evrone/yandex-cleanweb)
@@ -6,7 +7,13 @@ Ruby wrapper for [Yandex Cleanweb](https://tech.yandex.ru/cleanweb/) spam detect
 
 Unfortunatelly, this gem *is not capable with MRI 1.8.7* because of MRI 1.8.7 doesn't have `URI.encode_www_form` method.
 
-## Installation
+<a href="https://evrone.com/?utm_source=github.com">
+  <img src="https://evrone.com/logo/evrone-sponsored-logo.png"
+       alt="Sponsored by Evrone" width="231">
+</a>
+
+## Getting Started
+### Installation
 
 Add this line to your application's Gemfile:
 
@@ -20,7 +27,7 @@ Or install it yourself as:
 
     $ gem install yandex_cleanweb
 
-## Usage
+### Usage
 
 Get the api key: [https://tech.yandex.ru/keys/get/?service=cw](https://tech.yandex.ru/keys/get/?service=cw)
 
@@ -64,8 +71,14 @@ If you use Yandex Cleanweb in Rails app, we recommend to set up the api key in `
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+Please read [Code of Conduct](CODE-OF-CONDUCT.md) and [Contributing Guidelines](CONTRIBUTING.md) for submitting pull requests to us.
+
+## Authors
+
+* [Kir Shatrov](https://github.com/kirs) - *Initial work*
+
+See also the list of [contributors](https://github.com/evrone/yandex-cleanweb/graphs/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
